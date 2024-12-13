@@ -3,8 +3,9 @@ import './list.scss'
 import {listData} from '../../lib/dummydata'
 import Filter from '../../components/filter/Filter';
 import Card from '../../components/card/Card';
-const List = () => {
+import Map from '../../components/map/Map';
 
+const List = () => {
 const data = listData;
 
   return (
@@ -19,7 +20,9 @@ const data = listData;
           }
         </div>
       </div>
-      <div className="mapContainer">map</div>
+      <div className="mapContainer">
+        <Map items={data}/>
+      </div>
     </div>
   )
 }

@@ -5,6 +5,7 @@ nav{
      height: 100px;
      justify-content: space-between;
      align-items: center;
+     position: sticky;
 
      a, Link{
           transition: all 0.4px ease;
@@ -102,6 +103,10 @@ nav{
                          align-items: center;
                          justify-content: center;
                     }
+
+                    @include md{
+                         display: none;
+                     }
                }
           }
 
@@ -114,7 +119,7 @@ nav{
                z-index: 1;
 
                @include sm{
-                    display: inline;
+                    display: initial;
                }
 
                img{
@@ -127,7 +132,7 @@ nav{
           .menu{
                position: absolute;
                top:0;
-               right: -50%;
+               right: -60%;
                background-color: black;
                color: white;
                height: 100vh;

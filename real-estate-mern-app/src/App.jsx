@@ -5,6 +5,7 @@ import Login from './routes/login/Login'
 import Layout from './routes/layout/Layout'
 import Singlepage from './routes/singlepage/Singlepage'
 import Profile from './routes/profile/Profile'
+import Register from './routes/register/Register'
 
 function App() {
 
@@ -24,6 +25,10 @@ function App() {
         {
           path:"/login",
           element:<Login/>
+        },
+        {
+          path: "/register",
+          element: <Register />
         },
         {
           path:"/:id",

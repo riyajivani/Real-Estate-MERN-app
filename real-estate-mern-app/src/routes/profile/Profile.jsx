@@ -19,6 +19,7 @@ const Profile = () => {
                          </span>
                          <span>Username: <b>John Doe</b></span>
                          <span>Email: <b>john@gmail.com</b></span>
+                           <button>Logout</button>
                     </div>
 
                     <div className="title">

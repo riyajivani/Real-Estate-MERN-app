@@ -30,7 +30,6 @@ const Login = () => {
       });
 
       updateUser(res.data)
-
       navigate("/");
     } catch (err) {
       setError(err.response.data.message);

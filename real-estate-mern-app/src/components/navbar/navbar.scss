@@ -7,7 +7,7 @@ nav{
      align-items: center;
      position: sticky;
 
-     a, Link{
+     a {
           transition: all 0.4px ease;
           
           &:hover{
@@ -59,7 +59,7 @@ nav{
                background-color: transparent;
           }
 
-          a, Link{
+               a {
                padding: 12px 24px;
                margin: 20px;
           }
@@ -149,7 +149,7 @@ nav{
                }
 
                @include sm{
-                    a, Link{
+                    a {
                          display: initial;
                     }
                }

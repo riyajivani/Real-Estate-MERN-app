@@ -1,9 +1,25 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './profile.scss'
 import List from '../../components/list/List'
 import Chat from '../../components/chat/Chat'
+import apiRequest from '../../lib/apiRequest'
+import { Await, Link, useLoaderData, useNavigate } from 'react-router-dom'
+import { AuthContext } from "../../context/AuthContext";
+import noAvtar from '../../../public/noavatar.jpg'
 
 const Profile = () => {
+     const navigate = useNavigate()
+     const data = useLoaderData();
+     const { updateUser, currentUser } = useContext(AuthContext);
+     const handleLogout = async () => {
+          try {
+               const res = apiRequest.post("/auth/logout")
+               updateUser(null);
+               navigate("/")
+          } catch (err) {
+               console.log(err)
+          }
+     }
   return (
     <div className='profile'>
           <div className="details">
@@ -19,7 +35,7 @@ const Profile = () => {
                          </span>
                          <span>Username: <b>John Doe</b></span>
                          <span>Email: <b>john@gmail.com</b></span>
-                           <button>Logout</button>
+                           <button onClick={handleLogout}>Logout</button>
                     </div>
 
                     <div className="title">

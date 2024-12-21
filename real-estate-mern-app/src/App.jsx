@@ -8,6 +8,8 @@ import Profile from './routes/profile/Profile'
 import Register from './routes/register/Register'
 import { RequireAuth } from './routes/layout/Layout'
 import ProfileUpdate from './routes/profileUpdate/profileUpdate'
+import NewPostPage from './routes/newPostPage/newPostPage'
+import { singlePageLoader } from './lib/loaders'
 
 function App() {
 
@@ -34,7 +36,8 @@ function App() {
         },
         {
           path:"/:id",
-          element:<Singlepage/>
+          element: <Singlepage />,
+          loader: singlePageLoader,
         }
       ]
     },
@@ -49,6 +52,10 @@ function App() {
         {
           path: "/profile/update",
           element: <ProfileUpdate />
+        },
+        {
+          path: "/add",
+          element: <NewPostPage />,
         },
       ]
     }

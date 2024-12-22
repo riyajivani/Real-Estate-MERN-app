@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import './singlepage.scss'
 import Slider from '../../components/slider/Slider'
 import pin from '../../../public/pin.png'
@@ -14,12 +14,28 @@ import bath from '../../../public/bath.png'
 import school from '../../../public/school.png'
 import bus from '../../../public/bus.png'
 import restaurant from '../../../public/restaurant.png'
-import { useLoaderData } from 'react-router-dom'
+import { redirect, useLoaderData } from 'react-router-dom'
 import DOMPurify from 'dompurify'
+import { AuthContext } from '../../context/AuthContext'
+import apiRequest from '../../lib/apiRequest'
 
 const Singlepage = () => {
   const post = useLoaderData();
-  console.log(post)
+  const [saved, setSaved] = useState(post.isSaved)
+  const { currentUser } = useContext(AuthContext)
+
+  const handleSave = async () => {
+    setSaved((prev) => !prev)
+    if (!currentUser) {
+      redirect("/login")
+    }
+    try {
+      await apiRequest.post("/users/save", { postId: post.id })
+    } catch (err) {
+      console.log(err)
+      setSaved((prev) => !prev)
+    }
+  }
 
   return (
     <div className='singlepage'>
@@ -141,9 +157,9 @@ const Singlepage = () => {
               Send a message
             </button>
 
-            <button>
+            <button onClick={handleSave} style={{ backgroundColor: saved ? "#fece51" : "white" }}>
               <img src={save} alt=''/>
-              Save a place
+              {saved ? "place saved" : "Save a place}"}
             </button>
           </div>
         </div>

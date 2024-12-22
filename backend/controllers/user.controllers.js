@@ -71,9 +71,68 @@ export const deleteUser = async (req, res) => {
           await prisma.user.delete({
                where: { id }
           })
-          res.status(500).json({ message: "user deleted" })
+          res.status(200).json({ message: "user deleted" })
      } catch (err) {
           console.log(err)
           res.status(500).json({ message: "failed to delete users" })
+     }
+}
+
+export const savePost = async (req, res) => {
+     const postId = req.body.postId
+     const tokenUserId = req.userId;
+
+     try {
+          const savedPost = await prisma.savedPost.findUnique({
+               where: {
+                    userId_postId: {
+                         userId: tokenUserId,
+                         postId
+                    }
+               }
+          })
+
+          if (savedPost) {
+               await prisma.savedPost.delete({
+                    where: {
+                         id: savedPost.id,
+                    }
+               })
+               res.status(200).json({ message: "post removed" })
+          }
+          else {
+               await prisma.savedPost.create({
+                    data: {
+                         userId: tokenUserId,
+                         postId,
+                    }
+               })
+               res.status(200).json({ message: "post saved" })
+          }
+     } catch (err) {
+          console.log(err)
+          res.status(500).json({ message: "failed to save post" })
+     }
+}
+
+export const profilePosts = async (req, res) => {
+     const tokenUserId = req.params.userId;
+     try {
+          const userPosts = await prisma.post.findMany({
+               where: { userId: tokenUserId }
+          });
+          const saved = await prisma.savedPost.findMany({
+               where: { userId: tokenUserId },
+               include: {
+                    post: true,
+               }
+          });
+
+          const savedPost = saved.map(item => item.post)
+          res.status(200).json({ userPosts, savedPost })
+
+     } catch (err) {
+          console.log(err)
+          res.status(500).json({ message: "failed to get profile posts" })
      }
 }

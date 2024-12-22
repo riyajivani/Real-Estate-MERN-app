@@ -3,9 +3,10 @@ import './profile.scss'
 import List from '../../components/list/List'
 import Chat from '../../components/chat/Chat'
 import apiRequest from '../../lib/apiRequest'
-import { Await, Link, useLoaderData, useNavigate } from 'react-router-dom'
+import { Link, useLoaderData, useNavigate } from 'react-router-dom'
 import { AuthContext } from "../../context/AuthContext";
 import noAvatar from '../../../public/noavatar.jpg'
+import Card from '../../components/card/Card'
 
 const Profile = () => {
      const navigate = useNavigate()
@@ -47,11 +48,18 @@ const Profile = () => {
                               <button>Create new post</button>
                          </div> 
 
-                         <List />
+                         {/* {
+                              data.userPosts.map((item) => (
+                                   <Card key={item.id} item={item} />
+                              ))
+                         } */}
+
+                         <List posts={data.userPosts} />
 
                          <div className="title">
                               <h1>Saved List</h1>
                          </div>
+                         <List posts={data.savedPost} />
                     </div>
                </div>
 

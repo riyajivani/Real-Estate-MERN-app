@@ -9,7 +9,7 @@ import Register from './routes/register/Register'
 import { RequireAuth } from './routes/layout/Layout'
 import ProfileUpdate from './routes/profileUpdate/profileUpdate'
 import NewPostPage from './routes/newPostPage/newPostPage'
-import { singlePageLoader, listPageLoader } from './lib/loaders'
+import { singlePageLoader, listPageLoader, profilePageLoader } from './lib/loaders'
 
 function App() {
 
@@ -48,7 +48,8 @@ function App() {
       children: [
         {
           path:"/profile",
-          element:<Profile/>
+          element: <Profile />,
+          loader: profilePageLoader
         },
         {
           path: "/profile/update",

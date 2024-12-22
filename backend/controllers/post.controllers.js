@@ -4,7 +4,6 @@ import 'dotenv/config'
 
 export const getPosts = async (req, res) => {
      const query = req.query
-     console.log(query)
      try {
           const posts = await prisma.post.findMany({
                where: {
@@ -14,7 +13,7 @@ export const getPosts = async (req, res) => {
                     bedroom: parseInt(query.bedroom) || undefined,
                     price: {
                          gte: parseInt(query.minPrice) || 0,
-                         lte: parseInt(query.maxPrice) || 10000000,
+                         lte: parseInt(query.maxPrice) || 1000000,
                     }
                },
           })

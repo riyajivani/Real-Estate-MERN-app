@@ -9,7 +9,7 @@ import Register from './routes/register/Register'
 import { RequireAuth } from './routes/layout/Layout'
 import ProfileUpdate from './routes/profileUpdate/profileUpdate'
 import NewPostPage from './routes/newPostPage/newPostPage'
-import { singlePageLoader } from './lib/loaders'
+import { singlePageLoader, listPageLoader } from './lib/loaders'
 
 function App() {
 
@@ -24,7 +24,8 @@ function App() {
         },
         {
           path:"/list",
-          element:<List/>
+          element: <List />,
+          loader: listPageLoader
         },
         {
           path:"/login",

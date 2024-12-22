@@ -3,8 +3,22 @@ import prisma from "../lib/prisma.js"
 import 'dotenv/config'
 
 export const getPosts = async (req, res) => {
+     const query = req.query
+     console.log(query)
      try {
-          const posts = await prisma.post.findMany()
+          const posts = await prisma.post.findMany({
+               where: {
+                    city: query.city || undefined,
+                    type: query.type || undefined,
+                    property: query.property || undefined,
+                    bedroom: parseInt(query.bedroom) || undefined,
+                    price: {
+                         gte: parseInt(query.minPrice) || 0,
+                         lte: parseInt(query.maxPrice) || 10000000,
+                    }
+               },
+          })
+          console.log(posts)
           res.status(200).json(posts)
      } catch (err) {
           console.log(err)
@@ -43,7 +57,7 @@ export const addPost = async (req, res) => {
                     ...body.postData,
                     userId: tokenUserId,
                     postDetail: {
-                         create: body.postDetail,
+                         create: body.postDetail ? body.postDetail : undefined,
                     },
                }
           })

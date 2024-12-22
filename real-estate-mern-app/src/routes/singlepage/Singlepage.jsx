@@ -109,7 +109,7 @@ const Singlepage = () => {
               <img src={school} alt="" />
               <div className="featureText">
               <span>School</span>
-                <p>{post.postDetail.school}</p>
+                <p>{post.postDetail.school > 999 ? post.postDetail.school / 1000 + "km" : post.postDetail.school + "m"}</p>
               </div>
             </div>
 

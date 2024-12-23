@@ -48,24 +48,18 @@ const Profile = () => {
                               <button>Create new post</button>
                          </div> 
 
-                         {/* {
-                              data.userPosts.map((item) => (
-                                   <Card key={item.id} item={item} />
-                              ))
-                         } */}
-
-                         <List posts={data.userPosts} />
+                         <List posts={data.postResponse.userPosts} />
 
                          <div className="title">
                               <h1>Saved List</h1>
                          </div>
-                         <List posts={data.savedPost} />
+                         <List posts={data.postResponse.savedPost} />
                     </div>
                </div>
 
                <div className="chatContainer">
                     <div className="wrapper">
-                         <Chat />
+                         <Chat chats={data.chatResponse} />
                     </div>
                </div>
           </div>

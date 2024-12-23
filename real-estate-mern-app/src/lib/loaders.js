@@ -13,7 +13,14 @@ export const listPageLoader = async ({ request, params }) => {
 }
 
 export const profilePageLoader = async () => {
-     const resp = await apiRequest("/users/profilePosts")
-     return resp.data
+     const [postResponse, chatResponse] = await Promise.all([
+          apiRequest("/users/profilePosts"),
+          apiRequest("/chats"),
+     ]);
+
+     return {
+          postResponse: postResponse.data,
+          chatResponse: chatResponse.data,
+     };
 }
 

@@ -10,6 +10,7 @@ import { RequireAuth } from './routes/layout/Layout'
 import ProfileUpdate from './routes/profileUpdate/profileUpdate'
 import NewPostPage from './routes/newPostPage/newPostPage'
 import { singlePageLoader, listPageLoader, profilePageLoader } from './lib/loaders'
+import About from './routes/about/About'
 
 function App() {
 
@@ -21,6 +22,10 @@ function App() {
         {
           path:"/",
           element:<Home/>
+        },
+        {
+          path: "/about",
+          element: <About />
         },
         {
           path:"/list",

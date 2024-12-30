@@ -22,7 +22,7 @@ const Navbar = () => {
             <Link to='/'>Home</Link>
             <Link to='/about'>About</Link>
             <Link to='/contact'>Contact</Link>
-            <Link to='/other'>Other</Link>
+        <Link to='/list'>List</Link>
 
           </div>
 
@@ -34,7 +34,7 @@ const Navbar = () => {
               <img src={currentUser.avatar || noAvatar} alt="" />
               <span>{currentUser.username}</span>
               <Link to='/profile' className='profile'>
-                <div className="notification">3</div>
+                {/* <div className="notification">3</div> */}
                 <span>Profile</span>
               </Link>
             </div> 

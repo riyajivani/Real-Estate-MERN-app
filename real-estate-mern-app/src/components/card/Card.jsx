@@ -7,7 +7,7 @@ import bath from '../../../public/bath.png'
 import save from '../../../public/save.png'
 import chat from '../../../public/chat.png'
 
-const Card = ({item}) => {
+const Card = ({ item, hideChatIcon }) => {
   return (
     <div className='card'>
       
@@ -42,13 +42,15 @@ const Card = ({item}) => {
           </div>
           
           <div className="icons">
-            <div className="icon">
+            {/* <div className="icon">
               <img src={save} alt="" />
-            </div>
+            </div> */}
 
-            <div className="icon">
-              <img src={chat} alt="" />
-            </div>
+            {!hideChatIcon && (
+              <div className="icon">
+                <img src={chat} alt="" />
+              </div>
+            )}
           </div>
         </div>
       </div>    

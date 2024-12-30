@@ -13,6 +13,7 @@ import bed from '../../../public/bed.png'
 import bath from '../../../public/bath.png'
 import school from '../../../public/school.png'
 import bus from '../../../public/bus.png'
+import noavatar from '../../../public/noavatar.jpg'
 import restaurant from '../../../public/restaurant.png'
 import { redirect, useLoaderData } from 'react-router-dom'
 import DOMPurify from 'dompurify'
@@ -55,7 +56,7 @@ const Singlepage = () => {
                 <div className="price">$ {post.price}</div>
               </div>
               <div className="user">
-                <img src={post.user.avatar} alt="" />
+                <img src={post.user.avatar || noavatar} alt="" />
                 <span>{post.user.username}</span>
               </div>
             </div>

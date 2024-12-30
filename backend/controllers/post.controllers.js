@@ -18,6 +18,7 @@ export const getPosts = async (req, res) => {
                },
           })
           console.log(posts)
+          if (!posts) return res.status(200).json({ message: "nothing posted yet" })
           res.status(200).json(posts)
      } catch (err) {
           console.log(err)
@@ -57,15 +58,17 @@ export const getPost = async (req, res) => {
                })
           }
 
-          const saved = await prisma.savedPost.findUnique({
-               where: {
-                    userId_postId: {
-                         userId,
-                         postId: id
+          if (userId) {
+               const saved = await prisma.savedPost.findUnique({
+                    where: {
+                         userId_postId: {
+                              userId,
+                              postId: id
+                         }
                     }
-               }
-          })
-          res.status(200).json({ ...post, isSaved: saved ? true : false })
+               })
+               res.status(200).json({ ...post, isSaved: saved ? true : false })
+          }
      } catch (err) {
           console.log(err)
           res.status(500).json({ message: "failed to get post with specific id" })

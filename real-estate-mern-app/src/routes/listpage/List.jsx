@@ -8,7 +8,7 @@ import { useLoaderData } from 'react-router-dom';
 
 const List = () => {
   const posts = useLoaderData();
-
+  console.log(posts)
   return (
     <div className='listpage'>
       <div className="listContainer">
@@ -16,7 +16,7 @@ const List = () => {
           <Filter/>
           {
             posts.map((item) => (
-              <Card key={item.id} item={item}/>
+              <Card key={item.id} item={item} hideChatIcon={false} />
             ))
           }
         </div>

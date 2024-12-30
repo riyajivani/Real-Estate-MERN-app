@@ -1,4 +1,5 @@
 import apiRequest from './apiRequest'
+import { redirect } from 'react-router-dom'
 
 export const singlePageLoader = async ({ request, params }) => {
      const resp = await apiRequest("/post/" + params.id)
@@ -13,14 +14,22 @@ export const listPageLoader = async ({ request, params }) => {
 }
 
 export const profilePageLoader = async () => {
-     const [postResponse, chatResponse] = await Promise.all([
-          apiRequest("/users/profilePosts"),
+     try {
+
+          const [postResponse, chatResponse] = await Promise.all([
+               apiRequest("/users/profilePosts"),
           apiRequest("/chats"),
      ]);
 
      return {
           postResponse: postResponse.data,
           chatResponse: chatResponse.data,
-     };
+          };   
+     } catch (err) {
+          if (err.response?.status === 401) {
+               throw redirect("/login"); // Redirect to login for unauthorized users
+          }
+          console.log(err)
+     }
 }
 

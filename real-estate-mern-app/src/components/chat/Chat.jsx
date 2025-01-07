@@ -6,7 +6,7 @@ import apiRequest from '../../lib/apiRequest';
 import { format } from 'timeago.js'
 import { SocketContext } from '../../context/SocketContext';
 
-const Chat = ({ chats }) => {
+const Chat = ({ chats, initialReceiver }) => {
      const [chat, setChat] = useState(null);
      const { currentUser } = useContext(AuthContext)
      const { socket } = useContext(SocketContext)
@@ -16,12 +16,52 @@ const Chat = ({ chats }) => {
           messageEndRef.current?.scrollIntoView({ behavior: "smooth" })
      }, [chat])
 
+     useEffect(() => {
+          if (initialReceiver) {
+               console.log(initialReceiver)
+               const initialChat = chats.find(c => c.receiver.id === initialReceiver);
+               if (initialChat) {
+                    // console.log(initialChat)
+                    handleOpenChat(initialChat.id, initialChat.receiver);
+               } else {
+                    const createChat = async () => {
+                         try {
+                              // Add a new chat by calling the addChat API
+                              const newChat = await apiRequest.post("/chats", {
+                                   receiverId: initialReceiver
+                              });
+
+                              const chatsRes = await apiRequest.get("/chats");
+                              const newChatData = chatsRes.data.find(c => c.id === newChat.data.id);
+
+                              handleOpenChat(newChatData.id, newChatData.receiver);
+                         } catch (err) {
+                              console.log(err);
+                         }
+                    }
+                    createChat();
+               }
+          }
+     }, [initialReceiver, chats]);
+
      const handleOpenChat = async (id, receiver) => {
           try {
+               if (chat && chat.id === id) return;
                const res = await apiRequest("/chats/" + id)
-               setChat({ ...res.data, receiver })
+               if (res.data && res.data.messages) {
+                    setChat({
+                         ...res.data,
+                         receiver
+                    });
+               }
+               // setChat({ ...res.data, receiver, messages: res.data.messages.length ? res.data.messages : [] })
           } catch (err) {
                console.log(err)
+               setChat({
+                    id,
+                    receiver,
+                    messages: [] // Empty messages for a new chat
+               });
           }
      }
 
@@ -66,6 +106,21 @@ const Chat = ({ chats }) => {
           };
      }, [socket, chat])
 
+     const handleCloseChat = () => {
+          setChat(null);
+          // Refresh the chats feed by re - fetching chats from the API
+          // const fetchChats = async () => {
+          //      try {
+          //           const res = await apiRequest.get("/chats");
+          //           setChat(res.data);  // Update the parent component's chats state
+          //      } catch (err) {
+          //           console.log(err);
+          //      }
+          // }
+          // fetchChats();
+          window.location.reload()
+     }
+
   return (
      <div className='chat'>
           <div className="messages">
@@ -92,7 +147,7 @@ const Chat = ({ chats }) => {
                                 <img src={chat.receiver.avatar || noAvatar} alt="" />
                                 {chat.receiver.username}
                     </div>
-                    <span className='close' onClick={()=>setChat(null)}>X</span>
+                           <span className='close' onClick={handleCloseChat}>X</span>
                </div>
                       <div className="center">
                            {chat.messages.map(message => (

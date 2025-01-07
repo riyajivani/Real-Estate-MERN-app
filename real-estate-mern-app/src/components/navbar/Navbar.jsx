@@ -52,7 +52,7 @@ const Navbar = () => {
               <Link to='/'>Home</Link>
               <Link to='/about'>About</Link>
               <Link to='/contact'>Contact</Link>
-              <Link to='/other'>Other</Link>
+          <Link to='/list'>List</Link>
           <Link to='/login'>Sign in</Link>
           <Link to='/register'>Sign up</Link>
             </div>

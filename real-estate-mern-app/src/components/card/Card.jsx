@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './card.scss'
 import { Link } from 'react-router-dom'
 import pin from '../../../public/pin.png'
@@ -6,8 +6,19 @@ import bed from '../../../public/bed.png'
 import bath from '../../../public/bath.png'
 import save from '../../../public/save.png'
 import chat from '../../../public/chat.png'
+import { useNavigate } from 'react-router-dom'
+import { AuthContext } from '../../context/AuthContext'
 
 const Card = ({ item, hideChatIcon }) => {
+  const navigate = useNavigate()
+  const { currentUser } = useContext(AuthContext);
+
+  const handleChatClick = () => {
+    navigate('/profile', { state: { receiverId: item.userId } });
+  };
+
+  const isOwner = currentUser?.id === item.userId;
+
   return (
     <div className='card'>
       
@@ -46,8 +57,8 @@ const Card = ({ item, hideChatIcon }) => {
               <img src={save} alt="" />
             </div> */}
 
-            {!hideChatIcon && (
-              <div className="icon">
+            {!hideChatIcon && !isOwner && (
+              <div className="icon" onClick={handleChatClick}>
                 <img src={chat} alt="" />
               </div>
             )}

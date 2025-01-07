@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './profile.scss'
 import List from '../../components/list/List'
 import Chat from '../../components/chat/Chat'
@@ -7,11 +7,15 @@ import { Link, useLoaderData, useNavigate, redirect } from 'react-router-dom'
 import { AuthContext } from "../../context/AuthContext";
 import noAvatar from '../../../public/noavatar.jpg'
 import Card from '../../components/card/Card'
+import { useLocation } from 'react-router-dom'
 
 const Profile = () => {
+     const location = useLocation()
      const navigate = useNavigate()
      const data = useLoaderData();
      const { updateUser, currentUser } = useContext(AuthContext);
+
+     const [initialReceiver, setInitialReceiver] = useState(null);
 
           const handleLogout = async () => {
                try {
@@ -31,7 +35,11 @@ const Profile = () => {
                if (!currentUser) {
                     redirect("/login")
                }
-          }, [currentUser])
+               if (location.state?.receiverId) {
+                    setInitialReceiver(location.state.receiverId);
+                    navigate(location.pathname, { replace: true });
+               }
+          }, [currentUser, location, navigate])
 
           return (
                <div className='profile'>
@@ -46,7 +54,7 @@ const Profile = () => {
 
                               <div className="info">
                                    <span>Avatar:
-                                        <img src={currentUser.avatar || noAvatar} alt="" />
+                                        <img src={currentUser?.avatar || noAvatar} alt="" />
                                    </span>
                                    <span>Username: <b>{currentUser.username}</b></span>
                                    <span>Email: <b>{currentUser.email}</b></span>
@@ -58,18 +66,18 @@ const Profile = () => {
                                    <button onClick={handleAddPost}>Create new post</button>
                               </div> 
 
-                              <List posts={data.postResponse.userPosts} hideChatIcon={true} />
+                              <List posts={data?.postResponse?.userPosts || []} hideChatIcon={true} />
 
                               <div className="title">
                                    <h1>Saved List</h1>
                               </div>
-                              <List posts={data.postResponse.savedPost} hideChatIcon={false} />
+                              <List posts={data?.postResponse?.savedPost || []} hideChatIcon={false} />
                          </div>
                     </div>
 
                     <div className="chatContainer">
                          <div className="wrapper">
-                              <Chat chats={data.chatResponse} />
+                              <Chat chats={data.chatResponse || []} initialReceiver={initialReceiver} />
                          </div>
                     </div>
                </div>
